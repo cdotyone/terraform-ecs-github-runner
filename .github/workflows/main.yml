@@ -1,0 +1,86 @@
+name: Terraform
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+jobs:
+  Commit_Lint:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}    
+    outputs: 
+      version: ${{ steps.semver.outputs.version }}
+      tag: ${{ steps.semver.outputs.tags }}    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: 12.x
+    - name: Install Packages
+      run: npm install
+    - name: Check Commit Message
+      uses: "cdotyone/github-commit-lint@main"
+      with:
+        message: "${{github.event.head_commit.message}}"     
+          
+  Documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hashicorp/setup-terraform@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt
+      continue-on-error: true
+    - name: 'Get Next Version'
+      id: semver
+      uses: cdotyone/conventional-changelog-action@v3.9.0
+      with:
+        github-token: ${{ github.token }}
+        tag-prefix: 'v'
+        release-count: '20'
+        version-file: './version.json'
+        skip-commit: 'true'
+        skip-push: 'true'
+        skip-tag: 'true'
+        output-file: 'false'
+    - name: 'Set README Version'
+      uses: "cdotyone/github-replace-version@main"
+      with:
+        version: ${{steps.semver.outputs.version}}  
+
+    - name: Render terraform docs and push changes back to PR
+      uses: terraform-docs/gh-actions@v0.9.0
+      with:
+        find-dir: .
+        output-file: README.md
+        output-method: inject
+        git-push: true
+      continue-on-error: true  
+
+  Release:
+    needs: [Commit_Lint, Documentation]
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: 12.x
+    - name: Install Packages
+      run: npm install
+    - name: Conventional Changelog Action
+      uses: cdotyone/conventional-changelog-action@v3.9.0
+      with:
+        github-token: ${{ github.token }}
+        tag-prefix: 'v'
+        release-count: '20'
+        version-file: './version.json'
