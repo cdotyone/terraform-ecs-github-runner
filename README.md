@@ -1,6 +1,7 @@
 # Terraform module for scalable self hosted GitHub action runners <!-- omit in toc -->
 
-[![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)[![Terraform registry](https://img.shields.io/github/v/release/philips-labs/terraform-aws-github-runner?label=Terraform%20Registry)](https://registry.terraform.io/modules/philips-labs/github-runner/aws/) ![Terraform checks](https://github.com/philips-labs/terraform-aws-github-runner/workflows/Terraform%20root%20module%20checks/badge.svg) ![Lambda Webhook](https://github.com/philips-labs/terraform-aws-github-runner/workflows/Lambda%20Agent%20Webhook/badge.svg) ![Lambda Runners](https://github.com/philips-labs/terraform-aws-github-runner/workflows/Lambda%20Runners/badge.svg) ![Lambda Syncer](https://github.com/philips-labs/terraform-aws-github-runner/workflows/Lambda%20Runner%20Binaries%20Syncer/badge.svg)
+[![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)[![Terraform registry](https://img.shields.io/github/v/release/cdotyone/terraform-ecs-github-runner?label=Terraform%20Registry)](https://registry.terraform.io/modules/cdotyone/terraform-ecs-github-runner/aws/) ![Terraform checks](https://github.com/cdotyone/terraform-ecs-github-runner/workflows/Terraform%20root%20module%20checks/badge.svg) ![Lambda Webhook](https://github.com/cdotyone/terraform-ecs-github-runner/workflows/Lambda%20Agent%20Webhook/badge.svg) ![Lambda Runners](https://github.com/philips-labs/terraform-aws-github-runner/workflows/Lambda%20Runners/badge.svg) ![Lambda Syncer](https://github.com/cdotyone/terraform-ecs-github-runner/workflows/Lambda%20Runner%20Binaries%20Syncer/badge.svg)
+
 
 This [Terraform](https://www.terraform.io/) module creates the required infrastructure needed to host [GitHub Actions](https://github.com/features/actions) self hosted, auto scaling runners on [AWS spot instances](https://aws.amazon.com/ec2/spot/). It provides the required logic to handle the life cycle for scaling up and down using a set of AWS Lambda functions. Runners are scaled down to zero to avoid costs when no workflows are active.
 
@@ -434,26 +435,3 @@ No requirements.
 | webhook          | n/a         |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-## Contribution
-
-We welcome contribution, please checkout the [contribution guide](CONTRIBUTING.md). Be-aware we use [pre commit hooks](https://pre-commit.com/) to update the docs.
-
-## Philips Forest
-
-This module is part of the Philips Forest.
-
-```bash
-
-                                                     ___                   _
-                                                    / __\__  _ __ ___  ___| |_
-                                                   / _\/ _ \| '__/ _ \/ __| __|
-                                                  / / | (_) | | |  __/\__ \ |_
-                                                  \/   \___/|_|  \___||___/\__|
-
-                                                                 Infrastructure
-
-```
-
-Talk to the forestkeepers in the `forest`-channel on Slack.
-
-[![Slack](https://philips-software-slackin.now.sh/badge.svg)](https://philips-software-slackin.now.sh)
