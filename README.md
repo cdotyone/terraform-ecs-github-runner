@@ -1,6 +1,6 @@
 # Terraform module for scalable self hosted GitHub action runners <!-- omit in toc -->
 
-[![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)[![Terraform registry](https://img.shields.io/github/v/release/cdotyone/terraform-ecs-github-runner?label=Terraform%20Registry)](https://registry.terraform.io/modules/cdotyone/terraform-ecs-github-runner/aws/) ![Terraform checks](https://github.com/cdotyone/terraform-ecs-github-runner/workflows/Terraform%20root%20module%20checks/badge.svg) ![Lambda Webhook](https://github.com/cdotyone/terraform-ecs-github-runner/actions/workflows/lambda-webhook.yml/badge.svg) ![Lambda Runners](https://github.com/cdotyone/terraform-ecs-github-runner/workflows/Lambda%20Runners/badge.svg) ![Lambda Syncer](https://github.com/cdotyone/terraform-ecs-github-runner/workflows/Lambda%20Runner%20Binaries%20Syncer/badge.svg)
+[![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)[![Terraform registry](https://img.shields.io/github/v/release/cdotyone/terraform-ecs-github-runner?label=Terraform%20Registry)](https://registry.terraform.io/modules/cdotyone/terraform-ecs-github-runner/aws/) ![Terraform checks](https://github.com/cdotyone/terraform-ecs-github-runner/actions/workflows/terraform.yml/badge.svg) ![Lambda Webhook](https://github.com/cdotyone/terraform-ecs-github-runner/actions/workflows/lambda-webhook.yml/badge.svg) ![Lambda Runners](https://github.com/cdotyone/terraform-ecs-github-runner/actions/workflows/lambda-runners.yml/badge.svg) ![Lambda Syncer](https://github.com/cdotyone/terraform-ecs-github-runner/actions/workflows/lambda-runner-binaries-syncer.yml/badge.svg)
 
 
 This [Terraform](https://www.terraform.io/) module creates the required infrastructure needed to host [GitHub Actions](https://github.com/features/actions) self hosted, auto scaling runners on [AWS spot instances](https://aws.amazon.com/ec2/spot/). It provides the required logic to handle the life cycle for scaling up and down using a set of AWS Lambda functions. Runners are scaled down to zero to avoid costs when no workflows are active.
@@ -332,7 +332,7 @@ In case the setup does not work as intended follow the trace of events:
 - Once an EC2 instance is running, you can connect to it in the EC2 user interface using Session Manager. Check the user data script using `cat /var/log/user-data.log`. By default several log files of the instances are streamed to AWS CloudWatch, look for a log group named `<environment>/runners`. In the log group you should see at least the log streams for the user data installation and runner agent.
 - Registered instances should show up in the Settings - Actions page of the repository or organization (depending on the installation mode).
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!--- BEGIN_TF_DOCS --->
 ## Requirements
 
 No requirements.
@@ -433,5 +433,5 @@ No requirements.
 | binaries\_syncer | n/a         |
 | runners          | n/a         |
 | webhook          | n/a         |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
+<!--- END_TF_DOCS --->
