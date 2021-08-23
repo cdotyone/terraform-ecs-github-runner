@@ -65,15 +65,15 @@ export async function terminateRunner(runner: RunnerInfo): Promise<void> {
 
 export async function createRunner(runnerParameters: RunnerInputParameters, launchTemplateName: string): Promise<void> {
   console.debug('Runner configuration: ' + JSON.stringify(runnerParameters));
-  
+
   const ssm = new SSM();
-    await ssm
-      .putParameter({
-        Name: runnerParameters.environment + '-github-runner',
-        Value: runnerParameters.runnerServiceConfig,
-        Type: 'SecureString',
-      })
-      .promise();
+  await ssm
+    .putParameter({
+      Name: runnerParameters.environment + '-github-runner',
+      Value: runnerParameters.runnerServiceConfig,
+      Type: 'SecureString',
+    })
+    .promise();
 }
 
 function getInstanceParams(
