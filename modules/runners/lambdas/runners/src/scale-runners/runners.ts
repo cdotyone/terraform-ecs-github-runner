@@ -65,13 +65,8 @@ export async function terminateRunner(runner: RunnerInfo): Promise<void> {
 
 export async function createRunner(runnerParameters: RunnerInputParameters, launchTemplateName: string): Promise<void> {
   console.debug('Runner configuration: ' + JSON.stringify(runnerParameters));
-/*  const ec2 = new EC2();
-  const runInstancesResponse = await ec2
-    .runInstances(getInstanceParams(launchTemplateName, runnerParameters))
-    .promise();
-  console.info('Created instance(s): ', runInstancesResponse.Instances?.map((i) => i.InstanceId).join(','));*/
+  
   const ssm = new SSM();
-  //runInstancesResponse.Instances?.forEach(async (i: EC2.Instance) => {
     await ssm
       .putParameter({
         Name: runnerParameters.environment + '-github-runner',
@@ -79,7 +74,6 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
         Type: 'SecureString',
       })
       .promise();
-  //});
 }
 
 function getInstanceParams(
