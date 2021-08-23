@@ -25,46 +25,34 @@ jobs:
     - name: Check Commit Message
       uses: "cdotyone/github-commit-lint@main"
       with:
-        message: "${{github.event.head_commit.message}}"     
-          
-  Documentation:
+        message: "${{github.event.head_commit.message}}"
+
+  prepare:
+    name: Create dist
     runs-on: ubuntu-latest
+    container: node:12
+    strategy:
+      matrix:
+        lambda: ["modules/webhook/lambdas/webhook", "modules/runner-binaries-syncer/lambdas/runner-binaries-syncer", "modules/runners/lambdas/runners"]
     steps:
-    - uses: hashicorp/setup-terraform@v1
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-    - name: Terraform fmt
-      id: fmt
-      run: terraform fmt
-      continue-on-error: true
-    - name: 'Get Next Version'
-      id: semver
-      uses: cdotyone/conventional-changelog-action@v3.9.0
-      with:
-        github-token: ${{ github.token }}
-        tag-prefix: 'v'
-        release-count: '20'
-        version-file: './version.json'
-        skip-commit: 'true'
-        skip-push: 'true'
-        skip-tag: 'true'
-        output-file: 'false'
-    - name: 'Set README Version'
-      uses: "cdotyone/github-replace-version@main"
-      with:
-        version: ${{steps.semver.outputs.version}}  
+      - name: Extract lambda name
+        id: lambda
+        env:
+          LAMBDA: ${{ matrix.lambda }}
+        run: echo ::set-output name=name::${LAMBDA##*/}
+      - uses: actions/checkout@v2
+      - name: Add zip
+        run: apt update && apt install zip
+      - name: Build dist
+        working-directory: ${{ matrix.lambda }}
+        run: yarn install && yarn run test && yarn dist
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.lambda.outputs.name }}
+          path: ${{ matrix.lambda }}/${{ steps.lambda.outputs.name }}.zip
+          retention-days: 1
 
-    - name: Render terraform docs and push changes back to PR
-      uses: terraform-docs/gh-actions@v0.9.0
-      with:
-        find-dir: .
-        output-file: README.md
-        output-method: inject
-        git-push: true
-      continue-on-error: true  
-
-  Release:
+  release:
     needs: [Commit_Lint, Documentation]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}

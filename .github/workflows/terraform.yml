@@ -58,4 +58,4 @@ jobs:
           output-file: README.md
           output-method: inject
           git-push: true
-        continue-on-error: true 
+        continue-on-error: true
