@@ -7,7 +7,8 @@ on:
     branches: [ main ]
     
 jobs:
-  Commit_Lint:
+  commit:
+    name: Commit Lint
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}    
     outputs: 
@@ -53,7 +54,8 @@ jobs:
           retention-days: 1
 
   release:
-    needs: [Commit_Lint, Documentation]
+    name: Release
+    needs: [commit, prepare]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
     steps:
