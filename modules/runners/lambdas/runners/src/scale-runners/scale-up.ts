@@ -79,6 +79,10 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
             `--token ${token} ${labelsArgument}`,
         runnerOwner,
         runnerType,
+        runnerToken:token,
+        runnerGroup:runnerGroup || 'Default',
+        runnerLabels:runnerExtraLabels || '',
+        runnerUrl:configBaseUrl
       });
     } else {
       console.info('No runner will be created, maximum number of runners reached.');

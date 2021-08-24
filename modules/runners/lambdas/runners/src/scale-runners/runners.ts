@@ -18,6 +18,10 @@ export interface RunnerInputParameters {
   environment: string;
   runnerType: 'Org' | 'Repo';
   runnerOwner: string;
+  runnerLabels: string;
+  runnerGroup: string;
+  runnerToken: string;
+  runnerUrl: string
 }
 
 export async function listRunners(filters: ListRunnerFilters | undefined = undefined): Promise<RunnerInfo[]> {
@@ -69,11 +73,39 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
   const ssm = new SSM();
   await ssm
     .putParameter({
-      Name: '/action_runners/'+runnerParameters.environment + '-github-params',
-      Value: runnerParameters.runnerServiceConfig,
+      Name: '/action_runners/'+runnerParameters.environment + '-github-token',
+      Value: runnerParameters.runnerToken,
       Type: 'SecureString',
+      Overwrite: true
     })
     .promise();
+
+  await ssm
+      .putParameter({
+        Name: '/action_runners/'+runnerParameters.environment + '-github-group',
+        Value: runnerParameters.runnerGroup,
+        Type: 'SecureString',
+        Overwrite: true
+      })
+      .promise();
+
+  await ssm
+      .putParameter({
+        Name: '/action_runners/'+runnerParameters.environment + '-github-labels',
+        Value: runnerParameters.runnerLabels,
+        Type: 'SecureString',
+        Overwrite: true
+      })
+      .promise();
+
+  await ssm
+      .putParameter({
+        Name: '/action_runners/'+runnerParameters.environment + '-github-url',
+        Value: runnerParameters.runnerUrl,
+        Type: 'SecureString',
+        Overwrite: true
+      })
+      .promise();
 }
 
 function getInstanceParams(
