@@ -18,6 +18,7 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
   const runnerExtraLabels = process.env.RUNNER_EXTRA_LABELS;
   const runnerGroup = process.env.RUNNER_GROUP_NAME;
   const environment = process.env.ENVIRONMENT;
+  const kmsKeyId = process.env.KMS_KEY_ID;
   const ghesBaseUrl = process.env.GHES_URL;
 
   let ghesApiUrl = '';
@@ -69,20 +70,21 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
 
       const labelsArgument = runnerExtraLabels !== undefined ? `--labels ${runnerExtraLabels}` : '';
       const runnerGroupArgument = runnerGroup !== undefined ? ` --runnergroup ${runnerGroup}` : '';
-      const configBaseUrl = ghesBaseUrl ? ghesBaseUrl : 'https://github.com';
+      let configBaseUrl = ghesBaseUrl ? ghesBaseUrl : 'https://github.com';
+      configBaseUrl+="/"+payload.repositoryOwner;
+      if(!enableOrgLevel) configBaseUrl+="/"+payload.repositoryName;
 
       await createRunnerLoop({
         environment,
-        runnerServiceConfig: enableOrgLevel
-          ? `--url ${configBaseUrl}/${payload.repositoryOwner} --token ${token} ${labelsArgument}${runnerGroupArgument}`
-          : `--url ${configBaseUrl}/${payload.repositoryOwner}/${payload.repositoryName} ` +
-            `--token ${token} ${labelsArgument}`,
+        runnerServiceConfig: `--url ${configBaseUrl}` +
+                             `--token ${token} ${labelsArgument}`,
         runnerOwner,
         runnerType,
         runnerToken:token,
-        runnerGroup:runnerGroup || 'Default',
-        runnerLabels:runnerExtraLabels || '',
-        runnerUrl:configBaseUrl
+        runnerGroup:runnerGroup,
+        runnerLabels:runnerExtraLabels,
+        runnerUrl:configBaseUrl,
+        kmsKeyId: kmsKeyId
       });
     } else {
       console.info('No runner will be created, maximum number of runners reached.');

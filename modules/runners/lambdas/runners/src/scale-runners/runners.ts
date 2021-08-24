@@ -18,10 +18,11 @@ export interface RunnerInputParameters {
   environment: string;
   runnerType: 'Org' | 'Repo';
   runnerOwner: string;
-  runnerLabels: string;
-  runnerGroup: string;
+  runnerLabels: string | any;
+  runnerGroup: string | any;
   runnerToken: string;
-  runnerUrl: string
+  runnerUrl: string;
+  kmsKeyId: string | any;
 }
 
 export async function listRunners(filters: ListRunnerFilters | undefined = undefined): Promise<RunnerInfo[]> {
