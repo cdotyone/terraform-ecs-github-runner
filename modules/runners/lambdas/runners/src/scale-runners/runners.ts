@@ -73,7 +73,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
   const ssm = new SSM();
   await ssm
     .putParameter({
-      Name: '/action_runners/'+runnerParameters.environment + '-github-token',
+      Name: '/action_runners/'+runnerParameters.environment + '/github-token',
       Value: runnerParameters.runnerToken,
       Type: 'SecureString',
       Overwrite: true
@@ -82,7 +82,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
 
   await ssm
       .putParameter({
-        Name: '/action_runners/'+runnerParameters.environment + '-github-group',
+        Name: '/action_runners/'+runnerParameters.environment + '/github-group',
         Value: runnerParameters.runnerGroup,
         Type: 'SecureString',
         Overwrite: true
@@ -91,7 +91,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
 
   await ssm
       .putParameter({
-        Name: '/action_runners/'+runnerParameters.environment + '-github-labels',
+        Name: '/action_runners/'+runnerParameters.environment + '/github-labels',
         Value: runnerParameters.runnerLabels,
         Type: 'SecureString',
         Overwrite: true
@@ -100,7 +100,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
 
   await ssm
       .putParameter({
-        Name: '/action_runners/'+runnerParameters.environment + '-github-url',
+        Name: '/action_runners/'+runnerParameters.environment + '/github-url',
         Value: runnerParameters.runnerUrl,
         Type: 'SecureString',
         Overwrite: true
