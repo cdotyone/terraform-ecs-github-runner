@@ -80,6 +80,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
     })
     .promise();
 
+  if(runnerParameters.runnerGroup==="" || runnerParameters.runnerGroup===null) runnerParameters.runnerGroup = "Default";
   await ssm
       .putParameter({
         Name: '/action_runners/'+runnerParameters.environment + '/github-group',
@@ -89,6 +90,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
       })
       .promise();
 
+  if(runnerParameters.runnerLabels==="" || runnerParameters.runnerLabels===null) runnerParameters.runnerLabels = "node";
   await ssm
       .putParameter({
         Name: '/action_runners/'+runnerParameters.environment + '/github-labels',
@@ -98,6 +100,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
       })
       .promise();
 
+  if(runnerParameters.runnerUrl==="" || runnerParameters.runnerUrl===null) runnerParameters.runnerUrl = "https://github.com/Associated-Bank";
   await ssm
       .putParameter({
         Name: '/action_runners/'+runnerParameters.environment + '/github-url',
