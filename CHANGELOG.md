@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.3...v0.1.4) (2021-08-24)
+
+
+### Bug Fixes
+
+* bad paramater path ([e075127](https://github.com/cdotyone/terraform-ecs-github-runner/commit/e0751277605a48e7725348ae59855dc7f11b7012))
+
+
+
 ## [0.1.3](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.2...v0.1.3) (2021-08-24)
 
 
