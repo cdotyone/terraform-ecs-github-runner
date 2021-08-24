@@ -80,6 +80,8 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
     })
     .promise();
 
+  if(runnerParameters.runnerGroup==="") runnerParameters.runnerGroup = "Default";
+
   await ssm
       .putParameter({
         Name: '/action_runners/'+runnerParameters.environment + '/github-group',
@@ -89,6 +91,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
       })
       .promise();
 
+  if(runnerParameters.runnerLabels==="") runnerParameters.runnerLabels = "node";
   await ssm
       .putParameter({
         Name: '/action_runners/'+runnerParameters.environment + '/github-labels',
