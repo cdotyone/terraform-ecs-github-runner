@@ -100,7 +100,8 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
       })
       .promise();
 
-  if(runnerParameters.runnerUrl==="" || runnerParameters.runnerUrl===null) runnerParameters.runnerUrl = "https://github.com/Associated-Bank";
+  if(runnerParameters.runnerUrl==="" || runnerParameters.runnerUrl===null)
+      runnerParameters.runnerUrl = "https://github.com/Associated-Bank";
   await ssm
       .putParameter({
         Name: '/action_runners/'+runnerParameters.environment + '/github-url',
