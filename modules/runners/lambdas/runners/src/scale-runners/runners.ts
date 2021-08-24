@@ -69,7 +69,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
   const ssm = new SSM();
   await ssm
     .putParameter({
-      Name: runnerParameters.environment + '-github-runner',
+      Name: '/action_runners/'+runnerParameters.environment + '-github-params',
       Value: runnerParameters.runnerServiceConfig,
       Type: 'SecureString',
     })
