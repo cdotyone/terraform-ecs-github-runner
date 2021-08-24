@@ -1,3 +1,12 @@
+## [0.1.3](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.2...v0.1.3) (2021-08-24)
+
+
+### Bug Fixes
+
+* split out parameters ([617df19](https://github.com/cdotyone/terraform-ecs-github-runner/commit/617df199e34199edcfc6d1c0e9bb4bfd3d3d7925))
+
+
+
 ## [0.1.2](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.1...v0.1.2) (2021-08-24)
 
 
