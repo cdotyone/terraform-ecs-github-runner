@@ -1,3 +1,12 @@
+## [0.1.2](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.1...v0.1.2) (2021-08-24)
+
+
+### Bug Fixes
+
+* set key name ([629584c](https://github.com/cdotyone/terraform-ecs-github-runner/commit/629584c30d8baa3f02ee9d9641351eb99b86066b))
+
+
+
 ## [0.1.1](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.0...v0.1.1) (2021-08-23)
 
 
