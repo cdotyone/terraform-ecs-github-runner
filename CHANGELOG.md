@@ -1,3 +1,12 @@
+## [0.1.7](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.6...v0.1.7) (2021-08-25)
+
+
+### Bug Fixes
+
+* align names ([5e21c47](https://github.com/cdotyone/terraform-ecs-github-runner/commit/5e21c479ca65e7fe7ab6416fe8821eb961bf34f0))
+
+
+
 ## [0.1.6](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.5...v0.1.6) (2021-08-24)
 
 
