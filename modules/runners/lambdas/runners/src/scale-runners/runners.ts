@@ -74,7 +74,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
   const ssm = new SSM();
   await ssm
     .putParameter({
-      Name: '/action_runners/'+runnerParameters.environment + '/github-token',
+      Name: '/actions_runner/'+runnerParameters.environment + '/github-token',
       Value: runnerParameters.runnerToken,
       Type: 'SecureString',
       Overwrite: true
@@ -84,7 +84,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
   if(runnerParameters.runnerGroup==="" || runnerParameters.runnerGroup===null) runnerParameters.runnerGroup = "Default";
   await ssm
       .putParameter({
-        Name: '/action_runners/'+runnerParameters.environment + '/github-group',
+        Name: '/actions_runner/'+runnerParameters.environment + '/github-group',
         Value: runnerParameters.runnerGroup,
         Type: 'SecureString',
         Overwrite: true
@@ -94,7 +94,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
   if(runnerParameters.runnerLabels==="" || runnerParameters.runnerLabels===null) runnerParameters.runnerLabels = "node";
   await ssm
       .putParameter({
-        Name: '/action_runners/'+runnerParameters.environment + '/github-labels',
+        Name: '/actions_runner/'+runnerParameters.environment + '/github-labels',
         Value: runnerParameters.runnerLabels,
         Type: 'SecureString',
         Overwrite: true
@@ -105,7 +105,7 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
       runnerParameters.runnerUrl = "https://github.com/Associated-Bank";
   await ssm
       .putParameter({
-        Name: '/action_runners/'+runnerParameters.environment + '/github-url',
+        Name: '/actions_runner/'+runnerParameters.environment + '/github-url',
         Value: runnerParameters.runnerUrl,
         Type: 'SecureString',
         Overwrite: true
