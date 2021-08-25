@@ -1,3 +1,12 @@
+## [0.1.6](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.5...v0.1.6) (2021-08-24)
+
+
+### Bug Fixes
+
+* add kmskeyid to environment vars ([1459e99](https://github.com/cdotyone/terraform-ecs-github-runner/commit/1459e99314a1a3da58e680a850053f41c2e99200))
+
+
+
 ## [0.1.5](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.4...v0.1.5) (2021-08-24)
 
 
