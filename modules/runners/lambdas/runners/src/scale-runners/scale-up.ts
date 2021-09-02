@@ -76,8 +76,10 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
 
       await createRunnerLoop({
         environment,
-        runnerServiceConfig: `--url ${configBaseUrl}` +
-                             `--token ${token} ${labelsArgument}`,
+        runnerServiceConfig: enableOrgLevel
+            ? `--url ${configBaseUrl}/${payload.repositoryOwner} --token ${token} ${labelsArgument}${runnerGroupArgument}`
+            : `--url ${configBaseUrl}/${payload.repositoryOwner}/${payload.repositoryName} ` +
+            `--token ${token} ${labelsArgument}`,
         runnerOwner,
         runnerType,
         runnerToken:token,

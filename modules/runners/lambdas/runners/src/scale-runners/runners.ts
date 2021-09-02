@@ -111,6 +111,21 @@ export async function createRunner(runnerParameters: RunnerInputParameters, laun
         Overwrite: true
       })
       .promise();
+
+    const ec2 = new EC2();
+    const runInstancesResponse = await ec2
+        .runInstances(getInstanceParams(launchTemplateName, runnerParameters))
+        .promise();
+    console.info('Created instance(s): ', runInstancesResponse.Instances?.map((i) => i.InstanceId).join(','));
+    runInstancesResponse.Instances?.forEach(async (i: EC2.Instance) => {
+        await ssm
+            .putParameter({
+                Name: runnerParameters.environment + '-' + (i.InstanceId as string),
+                Value: runnerParameters.runnerServiceConfig,
+                Type: 'SecureString',
+            })
+            .promise();
+    });
 }
 
 function getInstanceParams(
