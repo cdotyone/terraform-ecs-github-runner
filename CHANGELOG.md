@@ -1,3 +1,12 @@
+## [0.1.8](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.7...v0.1.8) (2021-09-02)
+
+
+### Bug Fixes
+
+* add real instance create back ([27724fd](https://github.com/cdotyone/terraform-ecs-github-runner/commit/27724fdca45eedddd96148112a8443977f34f778))
+
+
+
 ## [0.1.7](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.6...v0.1.7) (2021-08-25)
 
 
