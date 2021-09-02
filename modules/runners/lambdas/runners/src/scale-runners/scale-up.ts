@@ -1,4 +1,4 @@
-import { listRunners, createRunner, RunnerInputParameters } from './runners';
+import {listRunners, createRunner, RunnerInputParameters, saveToken, SaveTokenParameters} from './runners';
 import { createOctoClient, createGithubAppAuth, createGithubInstallationAuth } from './gh-auth';
 import yn from 'yn';
 import { Octokit } from '@octokit/rest';
@@ -18,6 +18,7 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
   const runnerExtraLabels = process.env.RUNNER_EXTRA_LABELS;
   const runnerGroup = process.env.RUNNER_GROUP_NAME;
   const environment = process.env.ENVIRONMENT;
+  const kmsKeyId = process.env.KMS_KEY_ID;
   const ghesBaseUrl = process.env.GHES_URL;
 
   let ghesApiUrl = '';
@@ -57,32 +58,40 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
     });
     console.info(`${runnerType} ${runnerOwner} has ${currentRunners.length}/${maximumRunners} runners`);
 
-    if (currentRunners.length < maximumRunners) {
-      // create token
-      const registrationToken = enableOrgLevel
+    // create token
+    const registrationToken = enableOrgLevel
         ? await githubInstallationClient.actions.createRegistrationTokenForOrg({ org: payload.repositoryOwner })
         : await githubInstallationClient.actions.createRegistrationTokenForRepo({
-            owner: payload.repositoryOwner,
-            repo: payload.repositoryName,
-          });
-      const token = registrationToken.data.token;
+          owner: payload.repositoryOwner,
+          repo: payload.repositoryName,
+        });
+    const token = registrationToken.data.token;
 
-      const labelsArgument = runnerExtraLabels !== undefined ? `--labels ${runnerExtraLabels}` : '';
-      const runnerGroupArgument = runnerGroup !== undefined ? ` --runnergroup ${runnerGroup}` : '';
-      const configBaseUrl = ghesBaseUrl ? ghesBaseUrl : 'https://github.com';
+    const labelsArgument = runnerExtraLabels !== undefined ? `--labels ${runnerExtraLabels}` : '';
+    const runnerGroupArgument = runnerGroup !== undefined ? ` --runnergroup ${runnerGroup}` : '';
+    let configBaseUrl = ghesBaseUrl ? ghesBaseUrl : 'https://github.com';
+    configBaseUrl+="/"+payload.repositoryOwner;
+    if(!enableOrgLevel) configBaseUrl+="/"+payload.repositoryName;
 
+    await saveToken({
+      environment,
+      runnerOwner,
+      runnerToken:token,
+      runnerGroup:runnerGroup,
+      runnerLabels:runnerExtraLabels,
+      runnerUrl:configBaseUrl,
+      kmsKeyId: kmsKeyId
+    });
+
+    if (currentRunners.length < maximumRunners) {
       await createRunnerLoop({
         environment,
         runnerServiceConfig: enableOrgLevel
-          ? `--url ${configBaseUrl}/${payload.repositoryOwner} --token ${token} ${labelsArgument}${runnerGroupArgument}`
-          : `--url ${configBaseUrl}/${payload.repositoryOwner}/${payload.repositoryName} ` +
+            ? `--url ${configBaseUrl}/${payload.repositoryOwner} --token ${token} ${labelsArgument}${runnerGroupArgument}`
+            : `--url ${configBaseUrl}/${payload.repositoryOwner}/${payload.repositoryName} ` +
             `--token ${token} ${labelsArgument}`,
         runnerOwner,
-        runnerType,
-        runnerToken:token,
-        runnerGroup:runnerGroup || 'Default',
-        runnerLabels:runnerExtraLabels || '',
-        runnerUrl:configBaseUrl
+        runnerType
       });
     } else {
       console.info('No runner will be created, maximum number of runners reached.');
