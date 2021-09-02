@@ -108,7 +108,7 @@ export async function saveToken(runnerParameters: SaveTokenParameters): Promise<
   if (runnerParameters.runnerGroup === '' || runnerParameters.runnerGroup === null)
     runnerParameters.runnerGroup = 'Default';
   await ssm
-    .ut({
+    .putParameter({
       Name: '/actions_runner/' + runnerParameters.environment + '/github-group',
       Value: runnerParameters.runnerGroup,
       Type: 'SecureString',
