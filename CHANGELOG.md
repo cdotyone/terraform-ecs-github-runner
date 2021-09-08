@@ -1,3 +1,12 @@
+## [0.1.10](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.9...v0.1.10) (2021-09-08)
+
+
+### Bug Fixes
+
+* make pretty ([f6eedc1](https://github.com/cdotyone/terraform-ecs-github-runner/commit/f6eedc17c790e97bc616cec36cffc33f1b03a8b2))
+
+
+
 ## [0.1.9](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.8...v0.1.9) (2021-09-08)
 
 
