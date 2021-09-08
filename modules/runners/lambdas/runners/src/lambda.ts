@@ -1,5 +1,6 @@
 import { scaleUp as scaleUpAction } from './scale-runners/scale-up';
 import { scaleDown as scaleDownAction } from './scale-runners/scale-down';
+import { saveToken as saveTokenAction } from './scale-runners/save-token';
 import { SQSEvent, ScheduledEvent, Context } from 'aws-lambda';
 
 export const scaleUp = async (event: SQSEvent, context: Context, callback: any): Promise<void> => {
@@ -19,6 +20,16 @@ export const scaleUp = async (event: SQSEvent, context: Context, callback: any):
 export const scaleDown = async (event: ScheduledEvent, context: Context, callback: any): Promise<void> => {
   try {
     await scaleDownAction();
+    callback(null);
+  } catch (e) {
+    console.error(e);
+    callback('Failed');
+  }
+};
+
+export const saveToken = async (event: ScheduledEvent, context: Context, callback: any): Promise<void> => {
+  try {
+    await saveTokenAction();
     callback(null);
   } catch (e) {
     console.error(e);
