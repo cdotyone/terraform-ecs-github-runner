@@ -30,16 +30,16 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
     const ghAuth = await createGithubAppAuth(undefined, ghesApiUrl);
     const githubClient = await createOctoClient(ghAuth.token, ghesApiUrl);
     installationId = enableOrgLevel
-        ? (
-            await githubClient.apps.getOrgInstallation({
-              org: payload.repositoryOwner,
-            })
+      ? (
+          await githubClient.apps.getOrgInstallation({
+            org: payload.repositoryOwner,
+          })
         ).data.id
-        : (
-            await githubClient.apps.getRepoInstallation({
-              owner: payload.repositoryOwner,
-              repo: payload.repositoryName,
-            })
+      : (
+          await githubClient.apps.getRepoInstallation({
+            owner: payload.repositoryOwner,
+            repo: payload.repositoryName,
+          })
         ).data.id;
   }
 
@@ -60,8 +60,8 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
     if (currentRunners.length < maximumRunners) {
       // create token
       const registrationToken = enableOrgLevel
-          ? await githubInstallationClient.actions.createRegistrationTokenForOrg({ org: payload.repositoryOwner })
-          : await githubInstallationClient.actions.createRegistrationTokenForRepo({
+        ? await githubInstallationClient.actions.createRegistrationTokenForOrg({ org: payload.repositoryOwner })
+        : await githubInstallationClient.actions.createRegistrationTokenForRepo({
             owner: payload.repositoryOwner,
             repo: payload.repositoryName,
           });
@@ -74,8 +74,8 @@ export const scaleUp = async (eventSource: string, payload: ActionRequestMessage
       await createRunnerLoop({
         environment,
         runnerServiceConfig: enableOrgLevel
-            ? `--url ${configBaseUrl}/${payload.repositoryOwner} --token ${token} ${labelsArgument}${runnerGroupArgument}`
-            : `--url ${configBaseUrl}/${payload.repositoryOwner}/${payload.repositoryName} ` +
+          ? `--url ${configBaseUrl}/${payload.repositoryOwner} --token ${token} ${labelsArgument}${runnerGroupArgument}`
+          : `--url ${configBaseUrl}/${payload.repositoryOwner}/${payload.repositoryName} ` +
             `--token ${token} ${labelsArgument}`,
         runnerOwner,
         runnerType,
