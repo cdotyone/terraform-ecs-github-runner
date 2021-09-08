@@ -1,3 +1,13 @@
+## [0.1.9](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.8...v0.1.9) (2021-09-08)
+
+
+### Bug Fixes
+
+* add token lambda ([8b5552c](https://github.com/cdotyone/terraform-ecs-github-runner/commit/8b5552c24a4bc3439130c8e915ea0189e6bc553d))
+* separate saveToken login and call all of the time ([fb05958](https://github.com/cdotyone/terraform-ecs-github-runner/commit/fb059580656b2b591c518fa34be9cc1772669af3))
+
+
+
 ## [0.1.8](https://github.com/cdotyone/terraform-ecs-github-runner/compare/v0.1.7...v0.1.8) (2021-09-02)
 
 
